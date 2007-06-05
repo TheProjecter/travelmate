@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://xmlns.opera.com/2006/widget">
+  <widgetname>Travel Mate</widgetname>
+  <description>
+	A useful widget for travelers with features like weather report, road map, local photos, flight reservation, currency conversion, local time with DST supported.
+	In simple words it is a true travel mate.
+  </description>
+  <width>450</width>
+  <height>250</height>
+  <author>
+    <name>Aditya Raj</name>
+    <link>http://travelmate.whizcreed.com</link>
+    <organization>Vinsol</organization>
+  </author>
+  <icon>img/icon.png</icon>
+  <id>
+    <host>travelmate.whizcreed.com</host>
+    <name>TravelMate</name>
+    <revised>2007-06-04</revised>
+  </id>
+</widget>

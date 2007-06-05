@@ -1,0 +1,189 @@
+<html>
+<head>
+<!-- Dependencies -->  
+<script type="text/javascript" src="js/yahoo/yahoo-dom-event.js"></script>  
+<script type="text/javascript" src="js/yahoo/yahoo.js"></script>  
+<!-- OPTIONAL: Connection (required only if using XHR DataSource) -->  
+<script type="text/javascript" src="js/yahoo/connection.js"></script>  
+<!-- OPTIONAL: Drag Drop (enables resizeable columns) -->  
+<script type="text/javascript" src="js/yahoo/dragdrop.js"></script>
+
+<!-- Yahoo Source file -->  
+<script type="text/javascript" src="js/yahoo/autocomplete.js"></script>  
+<script type="text/javascript" src="js/yahoo/datasource.js"></script>
+<script type="text/javascript" src="js/yahoo/datatable.js"></script>
+<script type="text/javascript" src="js/yahoo/container.js"></script>
+
+<script type="text/javascript" src="js/geoActions.js"></script>
+<script type="text/javascript" src="js/kayakActions.js"></script>
+<script type="text/javascript" src="js/actions.js"></script>
+
+<!-- Holds array of supported currencies -->
+<script type="text/javascript" src="js/currencyList.js"></script>
+
+<!-- Conf must be included in end to make all the scripts available to it -->
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/conf.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/yahoo/autocomplete.css">
+<link rel="stylesheet" type="text/css" href="css/yahoo/datatable.css">
+<link rel="stylesheet" type="text/css" href="css/yahoo/container.css">
+<title>Travel Mate</title>
+</head>
+<body>
+<table id="layout" cellpadding="0" cellspacing="0">
+<tr>
+	<td width="25" id="topLeftCorner"><div id="loading"></div></td>
+	<td colspan="2" id="topControls"><div id='topLinks'></div><div id='topButtons'><button class="configBtn all_buttons" id="configBtn"/><button class="closeBtn all_buttons" id="closeBtn" onClick="window.close();"/></div></td>
+  </tr>
+<tr>
+	<td id="leftVerticalBar"></td>
+	<td id="content">
+	  <table align="center" id="idle">
+        <tr>
+          <td><a href="http://travelmate.whizcreed.com"><img src="img/logo.png" border="0" id="logo"></a> </td>
+        </tr>
+        <tr>
+          <td align="center">&nbsp;<img src="img/progress.gif" id="progress"/>&nbsp;</td>
+        </tr>
+      </table>
+	  <table id="config" align="center" cellpadding="4" style="display:none;">
+			<tr>
+				<td id="label">Travelling From</td>
+				<td id="field">
+					<input class="textbox" type="text" id="fromCity">
+					<div id="fromCityOptions" class="autocomplete"></div>				</td>
+			</tr>
+			<tr>
+				<td id="label">Travelling To</td>
+				<td id="field">
+					<input class="textbox" type="text" id="toCity">
+					<div id="toCityOptions" class="autocomplete"></div>				</td>
+			</tr>
+			<tr>
+			<td colspan="2" align="center"><input type="button" id="configProceed" value="Proceed" title="Search by city, airport name or code"></td>
+			</tr>
+	  </table>
+		<table id="photos" style="display:none;" cellpadding="0" cellspacing="0">
+			<tr>
+				<td id="photoThumbs">
+				</td>
+			</tr>
+			<tr>
+				<td id="photoBig" style="display:none;">
+				</td>
+			</tr>
+		</table>
+		<table align="center" id="clock" style="display:none;" cellpadding="0" cellspacing="5">
+			<tr>
+				<td id="clockFromCityName"></td><td id="clockFromCityTime">Connecting server..</td>
+			</tr>
+
+			<tr>
+				<td id="clockToCityName"></td><td id="clockToCityTime">Connecting server..</td>
+			</tr>
+		</table>
+		<table id="currency" align="center" cellpadding="4" style="display:none;">
+			<tr>
+				<td id="label">Currency From</td>
+				<td id="field">
+					<select id='fromCurrency'></select></td>
+			</tr>
+			<tr>
+				<td id="label">Currency To</td>
+				<td id="field">
+					<select id='toCurrency'></select></td>
+			</tr>
+			<tr>
+				<td id="label">Amount</td>
+				<td id="field">
+					<input type="text" class="textbox" id="currencyAmount" size="5" autocomplete="off" value="1"> 
+					<span id="currencyResult"></span>
+				</td>
+			</tr>
+			<tr>
+			<td colspan="2" align="center"><input type="button" id="currencyCalc" value="Calculate"></td>
+			</tr>
+		</table>
+		<table align="center" id="map" style="display:none;" cellpadding="0" cellspacing="0">
+			<tr>
+				<td><div id="mapContainer"></div></td>
+			</tr>
+		</table>
+		<table align="center" id="flights" style="display:none;" cellpadding="0" cellspacing="0">
+			<tr>
+				<td valign="top">
+					<table align="center" id="flightForm">
+						<tr>
+							<td id="label">Round trip</td><td><input type="checkbox" id="tripBack" value="n"></td>
+						</tr>
+						<tr>
+							<td>Leaving</td><td><input type="text" id="tripLeave" size="10"> 
+							<select id="tripLeaveTime">
+								<option value="a">Any time</option>
+								<option value="r">Early morning</option>
+								<option value="m">Morning</option>
+								<option value="12">Noon</option>
+								<option value="n">After noon</option>																								
+								<option value="e">Evening</option>								
+								<option value="l">Night</option>
+							</select>
+							</td>
+						</tr>
+						<tr style="display:none;" id="tripReturnRow">
+							<td>Returning</td><td><input type="text" id="tripReturn" size="10">
+							<select id="tripReturnTime">
+								<option value="a">Any time</option>
+								<option value="r">Early morning</option>
+								<option value="m">Morning</option>
+								<option value="12">Noon</option>
+								<option value="n">After noon</option>																								
+								<option value="e">Evening</option>								
+								<option value="l">Night</option>
+							</select>								
+							</td>
+						</tr>
+						<tr>
+							<td>Travelers</td><td><input type="text" id="tripTravelers" size="3" autocomplete='off'></td>
+						</tr>
+						<tr>
+							<td>Cabin</td><td>
+							<select id='tripCabin'>
+								<option value="f">First</option>
+								<option value="b">Business</option>
+								<option value="e" selected="selected">Econonmy</option>
+							</select> <input type="button" id="tripProceed" value="Get Flights">
+							</td>
+						</tr>						
+					</table>
+					<div style="display:none;"id="flightGrid"></div>
+				</td>
+			</tr>
+		</table>
+		<table id="weather" style="display:none;" cellpadding="0" cellspacing="0" align="center">
+			<tr>
+				<td id="weatherReport">
+				</td>
+			</tr>
+		</table>
+	</td>
+	<td id="rightVerticalBar">&nbsp;</td>
+</tr>
+  <tr>
+	<td id="bottomLeftCorner">&nbsp;</td>
+	<td colspan="2" id="bottomBar">
+	<table cellpadding="0" cellspacing="0" align="center">
+		<tr>
+		<td id="bottomLinks" style="display:none;"><a href="#" id="lnkMap" class="links">Map</a> | <a href="#" id="lnkWeather" class="links">Weather</a> | <a href="#" id="lnkPhoto" class="links">Photos</a> | <a href="#" id="lnkFlight" class="links">Flights</a> | <a href="#" id="lnkCurrency" class="links">Currency</a> | <a href="#" id="lnkClock" class="links">Time</a></td>
+		</tr>
+	</table>
+	</td>
+  </tr>
+</table>
+<script type="text/javascript"
+src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAcRj_lrV8DVgBtZ3iM33WHBTZ0Ns4_xn6V-v9WESGZDGyqKnb7xTjVU4uvdJ-g3HY2v4x1lUSQTnfcA">
+//External script loaded in the end to avoid any delay in starting up the widget
+</script>
+</body>
+</html>
